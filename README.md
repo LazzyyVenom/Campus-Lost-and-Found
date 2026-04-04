@@ -1,20 +1,20 @@
 # Lost and Found System
 
-A structured full-stack Lost and Found web app for college practical submission.
+This is a college project made to solve real lost-and-found issues inside campus.
 
 ## Features
 
 - User signup and login
 - Forgot password with reset code
 - Session-based authentication
-- Post lost/found item listings
-- View all active listings
+- Create lost/found listings
+- Search and filter listings
 - Claim available items
-- Dashboard for your posted and claimed items
-- Mark items as resolved
-- Delete your own listings
-- Admin login audit page (see who tried to log in)
-- SQLite local database (easy to run)
+- Dashboard for posted and claimed items
+- Mark item as resolved
+- Delete your own listing
+- Admin-only login logs page
+- SQLite local database
 
 ## Tech Stack
 

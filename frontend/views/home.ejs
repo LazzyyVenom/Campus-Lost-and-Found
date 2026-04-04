@@ -2,15 +2,15 @@
 
 <section class="page-hero">
   <div>
-    <p class="eyebrow">Daily Student Utility</p>
-    <h1>Fast, clean, and reliable lost-and-found operations.</h1>
-    <p>Designed for real campus usage with quick reporting, easy discovery, and clear status tracking.</p>
+    <p class="eyebrow">Campus Lost and Found</p>
+    <h1>One place to report, search, and recover lost items.</h1>
+    <p>This project is made for everyday student use, so anyone can quickly post details and help return important things.</p>
     <% if (!currentUser) { %>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/signup">Create Account</a>
         <a class="btn btn-outline" href="/login">Login</a>
       </div>
-      <p class="muted">Want to know the full purpose? <a href="/why-this-site">Read Why This Site</a>.</p>
+      <p class="muted">Want to know why we built this? <a href="/why-this-site">See the purpose page</a>.</p>
     <% } else { %>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/items/new">Post New Listing</a>
@@ -37,15 +37,15 @@
 <section class="panel utility-grid">
   <article>
     <h3>Quick Reporting</h3>
-    <p>Post complete item details in under one minute with category, location, and contact information.</p>
+    <p>Add item name, category, location, and contact in a simple form.</p>
   </article>
   <article>
     <h3>Smart Discovery</h3>
-    <p>Use keyword, category, and status filters to find relevant listings quickly.</p>
+    <p>Use search, category, and status filters to find the right listing fast.</p>
   </article>
   <article>
     <h3>Secure Workflow</h3>
-    <p>Authenticated actions and admin monitoring make the platform safe for daily use.</p>
+    <p>Login-based actions and admin checks keep the process clean and safe.</p>
   </article>
 </section>
 
@@ -108,17 +108,17 @@
   <article class="step-card">
     <span>01</span>
     <h3>Create Listing</h3>
-    <p>Report lost or found item details with accurate category and location.</p>
+    <p>Post lost or found item details with correct category and location.</p>
   </article>
   <article class="step-card">
     <span>02</span>
     <h3>Find Match</h3>
-    <p>Use search and status filters to identify relevant items quickly.</p>
+    <p>Check the listings feed and filters to locate matching items.</p>
   </article>
   <article class="step-card">
     <span>03</span>
     <h3>Close Case</h3>
-    <p>Claim, verify owner details, and mark as resolved to keep records clean.</p>
+    <p>Claim the item, verify details, and close the case after handover.</p>
   </article>
 </section>
 

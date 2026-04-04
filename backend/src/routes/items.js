@@ -6,6 +6,18 @@ const { setFlash } = require('../utils/flash');
 
 const router = express.Router();
 
+function getPlatformStats() {
+  return db
+    .prepare(
+      `SELECT
+        (SELECT COUNT(*) FROM users) AS total_users,
+        (SELECT COUNT(*) FROM items) AS total_listings,
+        (SELECT COUNT(*) FROM items WHERE status = 'OPEN') AS open_listings,
+        (SELECT COUNT(*) FROM items WHERE status = 'RESOLVED') AS resolved_listings`
+    )
+    .get();
+}
+
 router.get('/', (req, res) => {
   const filters = {
     q: (req.query.q || '').trim(),
@@ -63,15 +75,7 @@ router.get('/', (req, res) => {
     )
     .all();
 
-  const stats = db
-    .prepare(
-      `SELECT
-        (SELECT COUNT(*) FROM users) AS total_users,
-        (SELECT COUNT(*) FROM items) AS total_listings,
-        (SELECT COUNT(*) FROM items WHERE status = 'OPEN') AS open_listings,
-        (SELECT COUNT(*) FROM items WHERE status = 'RESOLVED') AS resolved_listings`
-    )
-    .get();
+  const stats = getPlatformStats();
 
   res.render('home', {
     title: 'Lost and Found',
@@ -83,15 +87,7 @@ router.get('/', (req, res) => {
 });
 
 function renderAboutPage(req, res) {
-  const stats = db
-    .prepare(
-      `SELECT
-        (SELECT COUNT(*) FROM users) AS total_users,
-        (SELECT COUNT(*) FROM items) AS total_listings,
-        (SELECT COUNT(*) FROM items WHERE status = 'OPEN') AS open_listings,
-        (SELECT COUNT(*) FROM items WHERE status = 'RESOLVED') AS resolved_listings`
-    )
-    .get();
+  const stats = getPlatformStats();
 
   res.render('about', {
     title: 'Why This Platform Exists',
