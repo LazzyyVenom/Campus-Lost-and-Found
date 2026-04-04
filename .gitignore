@@ -1,3 +1,5 @@
 node_modules/
 lostfound.db
+lostfound.db-shm
+lostfound.db-wal
 .env
