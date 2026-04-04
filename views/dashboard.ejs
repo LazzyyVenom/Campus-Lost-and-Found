@@ -1,0 +1,60 @@
+<%- include('partials/header', { title }) %>
+
+<section class="page-hero compact">
+  <div>
+    <p class="eyebrow">Student Dashboard</p>
+    <h1>Welcome, <%= currentUser.name %></h1>
+    <p class="muted">Manage your listings and track item claim updates in one place.</p>
+  </div>
+  <a class="btn btn-primary" href="/items/new">+ Add New Listing</a>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Your Posted Items</h2>
+  <% if (!myItems.length) { %>
+    <p class="muted">You have not posted anything yet.</p>
+  <% } %>
+  <div class="card-grid">
+    <% myItems.forEach((item) => { %>
+      <article class="card reveal">
+        <div class="tag-row">
+          <span class="tag"><%= item.category %></span>
+          <span class="status <%= item.status.toLowerCase() %>"><%= item.status %></span>
+        </div>
+        <h3><a href="/items/<%= item.id %>"><%= item.title %></a></h3>
+        <p class="meta">Claimed by: <%= item.claimant_name || 'No one yet' %></p>
+        <div class="btn-row">
+          <% if (item.status !== 'RESOLVED') { %>
+            <form action="/items/<%= item.id %>/resolve" method="POST">
+              <button class="btn btn-muted" type="submit">Mark Resolved</button>
+            </form>
+          <% } %>
+          <form action="/items/<%= item.id %>/delete" method="POST" onsubmit="return confirm('Delete this item?');">
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="section-title">Items You Claimed</h2>
+  <% if (!claimedItems.length) { %>
+    <p class="muted">You have not claimed any items.</p>
+  <% } %>
+  <div class="card-grid">
+    <% claimedItems.forEach((item) => { %>
+      <article class="card reveal">
+        <div class="tag-row">
+          <span class="tag"><%= item.category %></span>
+          <span class="status <%= item.status.toLowerCase() %>"><%= item.status %></span>
+        </div>
+        <h3><a href="/items/<%= item.id %>"><%= item.title %></a></h3>
+        <p class="meta">Owner: <%= item.owner_name %></p>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

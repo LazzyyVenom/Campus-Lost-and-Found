@@ -1,0 +1,96 @@
+<%- include('partials/header', { title }) %>
+
+<section class="page-hero">
+  <div>
+    <p class="eyebrow">Purpose and Vision</p>
+    <h1>Why This Lost and Found Platform Exists</h1>
+    <p>This website was built to solve a practical campus problem: students lose essential items every week, and recovery is slow without one trusted system.</p>
+  </div>
+  <div class="stat-cluster">
+    <article class="stat-card">
+      <p>Registered Users</p>
+      <strong><%= stats.total_users || 0 %></strong>
+    </article>
+    <article class="stat-card">
+      <p>Open Cases</p>
+      <strong><%= stats.open_listings || 0 %></strong>
+    </article>
+    <article class="stat-card">
+      <p>Resolved Cases</p>
+      <strong><%= stats.resolved_listings || 0 %></strong>
+    </article>
+  </div>
+</section>
+
+<section class="panel prose-block">
+  <h2 class="section-title">Problem We Are Solving</h2>
+  <p>Students often lose wallets, ID cards, notes, gadgets, and keys. Usually, the search depends on random messages, friend circles, or chance. This causes stress, delays, and low recovery rates.</p>
+  <p>Our platform centralizes reporting and claiming into one official student-friendly workflow so everyone knows where to check first.</p>
+</section>
+
+<section class="panel impact-strip">
+  <article>
+    <h3>Why this website was created</h3>
+    <p>In colleges, students often lose ID cards, keys, wallets, chargers, notebooks, and documents. Without one trusted system, these items are hard to recover. This platform creates a single, verified place where lost and found updates are transparent.</p>
+  </article>
+  <article>
+    <h3>How it helps daily student life</h3>
+    <p>Students can quickly publish details, claim responsibly, and connect with item owners. For 10-50 daily users, this keeps communication simple and avoids confusion from scattered messages.</p>
+  </article>
+  <article>
+    <h3>Trust and accountability</h3>
+    <p>User accounts, login audit records, and status-based listing flow improve safety and make the system suitable for real campus operations.</p>
+  </article>
+  <article>
+    <h3>For students</h3>
+    <p>Fast listing, easy browse, and verified claim process reduce uncertainty and save time.</p>
+  </article>
+  <article>
+    <h3>For campus operations</h3>
+    <p>A consistent digital record helps coordinate returns and improves transparency for administrators.</p>
+  </article>
+  <article>
+    <h3>For everyday use</h3>
+    <p>Designed for 10-50 active daily users with clear navigation, responsive layouts, and secure account handling.</p>
+  </article>
+</section>
+
+<section class="panel process-grid">
+  <h2 class="section-title">Real-World Readiness Checklist</h2>
+  <article class="step-card">
+    <span>01</span>
+    <h3>Role-based access</h3>
+    <p>Only admin can open login audit pages and view platform-wide user activity.</p>
+  </article>
+  <article class="step-card">
+    <span>02</span>
+    <h3>Account recovery</h3>
+    <p>Forgot Password flow with reset code support helps students recover access quickly.</p>
+  </article>
+  <article class="step-card">
+    <span>03</span>
+    <h3>Operational clarity</h3>
+    <p>Open, claimed, and resolved statuses keep lifecycle tracking clean and transparent.</p>
+  </article>
+</section>
+
+<section class="panel process-grid">
+  <h2 class="section-title">Platform Values</h2>
+  <article class="step-card">
+    <span>A</span>
+    <h3>Accessibility</h3>
+    <p>Simple UX for all students, even first-time users.</p>
+  </article>
+  <article class="step-card">
+    <span>T</span>
+    <h3>Trust</h3>
+    <p>Authenticated accounts and admin-only audit visibility.</p>
+  </article>
+  <article class="step-card">
+    <span>I</span>
+    <h3>Impact</h3>
+    <p>More recovered items, less stress, stronger campus community.</p>
+  </article>
+</section>
+
+<%- include('partials/footer') %>

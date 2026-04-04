@@ -1,0 +1,23 @@
+  </main>
+
+  <footer class="site-footer">
+    <p>Campus Lost & Found | Built to reconnect students with their essentials quickly and safely.</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const inputId = btn.getAttribute('data-toggle-password');
+        const target = document.getElementById(inputId);
+        if (!target) {
+          return;
+        }
+
+        const isPassword = target.type === 'password';
+        target.type = isPassword ? 'text' : 'password';
+        btn.textContent = isPassword ? 'Hide' : 'Show';
+      });
+    });
+  </script>
+</body>
+</html>
