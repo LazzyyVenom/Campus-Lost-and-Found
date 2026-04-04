@@ -2,10 +2,10 @@
   "name": "lost-and-found-system",
   "version": "1.0.0",
   "description": "College practical project: Lost and Found System with authentication",
-  "main": "src/app.js",
+  "main": "backend/src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "node --watch src/app.js"
+    "start": "node backend/src/app.js",
+    "dev": "node --watch backend/src/app.js"
   },
   "keywords": [
     "lost-and-found",

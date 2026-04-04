@@ -30,33 +30,36 @@ A structured full-stack Lost and Found web app for college practical submission.
 
 ```text
 Lost and found System/
-|- public/
-|  |- styles.css
-|- src/
-|  |- config/
-|  |  |- appConfig.js
-|  |- middleware/
-|  |  |- auth.js
-|  |- routes/
-|  |  |- admin.js
-|  |  |- auth.js
-|  |  |- items.js
-|  |- services/
-|  |  |- loginLogService.js
-|  |- utils/
-|  |  |- flash.js
-|  |- app.js
-|  |- db.js
-|- views/
-|  |- partials/
-|  |  |- footer.ejs
-|  |  |- header.ejs
-|  |- admin-login-logs.ejs
-|  |- dashboard.ejs
-|  |- item.ejs
-|  |- login.ejs
-|  |- new-item.ejs
-|  |- signup.ejs
+|- backend/
+|  |- lostfound.db
+|  |- src/
+|  |  |- config/
+|  |  |  |- appConfig.js
+|  |  |- middleware/
+|  |  |  |- auth.js
+|  |  |- routes/
+|  |  |  |- admin.js
+|  |  |  |- auth.js
+|  |  |  |- items.js
+|  |  |- services/
+|  |  |  |- loginLogService.js
+|  |  |- utils/
+|  |  |  |- flash.js
+|  |  |- app.js
+|  |  |- db.js
+|- frontend/
+|  |- public/
+|  |  |- styles.css
+|  |- views/
+|  |  |- partials/
+|  |  |  |- footer.ejs
+|  |  |  |- header.ejs
+|  |  |- admin-login-logs.ejs
+|  |  |- dashboard.ejs
+|  |  |- item.ejs
+|  |  |- login.ejs
+|  |  |- new-item.ejs
+|  |  |- signup.ejs
 |- .env.example
 |- package.json
 |- README.md
