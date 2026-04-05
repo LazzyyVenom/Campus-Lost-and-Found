@@ -12,14 +12,15 @@ const User = require('./models/User');
 
 const app = express();
 
-app.use(cors());
+const corsOrigin = process.env.CORS_ORIGIN || '*';
+
+app.use(
+  cors({
+    origin: corsOrigin === '*' ? true : corsOrigin,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
-
-app.use((req, res, next) => {
-  req.models = { User };
-  next();
-});
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, message: 'Campus Lost & Found API running' });

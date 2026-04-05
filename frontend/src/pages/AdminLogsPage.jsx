@@ -22,8 +22,12 @@ export default function AdminLogsPage() {
 
   return (
     <>
-      <section className="panel hero-medium">
-        <h1>Admin Login Logs</h1>
+      <section className="hero-big hero-public">
+        <div>
+          <p className="hero-label">Admin View</p>
+          <h1>Admin Login Logs</h1>
+          <p>Track login attempts, success rates, and user activity from one secure place.</p>
+        </div>
         <div className="stat-boxes">
           <article><p>Total Attempts</p><strong>{stats.totalAttempts}</strong></article>
           <article><p>Success</p><strong>{stats.totalSuccess}</strong></article>
@@ -51,7 +55,11 @@ export default function AdminLogsPage() {
                   <td>{new Date(log.createdAt).toLocaleString()}</td>
                   <td>{log.userId?.name || '-'}</td>
                   <td>{log.emailAttempted}</td>
-                  <td>{log.loginStatus}</td>
+                  <td>
+                    <span className={`badge ${log.loginStatus === 'SUCCESS' ? 'success' : 'failure'}`}>
+                      {log.loginStatus}
+                    </span>
+                  </td>
                   <td>{log.ipAddress || '-'}</td>
                   <td>{log.userAgent || '-'}</td>
                 </tr>

@@ -27,7 +27,7 @@ export default function ForgotPasswordPage() {
       <form onSubmit={onSubmit}>
         <label>Registered Email</label>
         <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-        <button className="btn btn-primary" type="submit">Generate Reset Code</button>
+        <button className="btn btn-gold" type="submit">Generate Reset Code</button>
       </form>
     </section>
   );

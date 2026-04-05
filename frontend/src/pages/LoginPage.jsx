@@ -22,7 +22,7 @@ export default function LoginPage() {
     try {
       const response = await client.post('/auth/login', form);
       login(response.data.token, response.data.user);
-      navigate('/dashboard');
+      navigate('/browse');
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Login failed.');
     }
@@ -50,7 +50,7 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <button className="btn btn-primary" type="submit">Login</button>
+        <button className="btn btn-gold" type="submit">Login</button>
       </form>
       <p><Link to="/forgot-password">Forgot password?</Link></p>
       <p>New user? <Link to="/signup">Create account</Link></p>

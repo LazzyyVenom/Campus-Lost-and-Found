@@ -50,7 +50,7 @@ export default function ResetPasswordPage() {
         <label>Confirm New Password</label>
         <input name="confirmPassword" type="password" value={form.confirmPassword} onChange={onChange} minLength={6} required />
 
-        <button className="btn btn-primary" type="submit">Reset Password</button>
+        <button className="btn btn-gold" type="submit">Reset Password</button>
       </form>
     </section>
   );

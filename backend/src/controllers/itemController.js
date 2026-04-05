@@ -1,13 +1,19 @@
 const Item = require('../models/Item');
+const User = require('../models/User');
 
 function buildFilters(query) {
   const filters = {};
 
   const searchText = (query.q || '').trim();
   const category = (query.category || '').trim();
-  const status = (query.status || 'OPEN').trim().toUpperCase();
+  const itemType = (query.itemType || '').trim().toUpperCase();
+  const status = (query.status || 'ALL').trim().toUpperCase();
 
-  if (status !== 'ALL') {
+  if (itemType && ['LOST', 'FOUND'].includes(itemType)) {
+    filters.itemType = itemType;
+  }
+
+  if (status !== 'ALL' && ['LOST', 'FOUND', 'RETURNED'].includes(status)) {
     filters.status = status;
   }
 
@@ -26,27 +32,35 @@ function buildFilters(query) {
 
   return {
     filters,
-    status,
-    category,
     searchText,
+    category,
+    itemType,
+    status,
   };
 }
 
 async function listItems(req, res) {
-  const { filters, status, category, searchText } = buildFilters(req.query);
+  const { filters, searchText, category, itemType, status } = buildFilters(req.query);
+  const latest = Number(req.query.latest || 0);
 
-  const items = await Item.find(filters)
+  const query = Item.find(filters)
     .populate('ownerId', 'name email')
     .populate('claimedBy', 'name email')
     .sort({ createdAt: -1 });
 
+  if (latest > 0) {
+    query.limit(latest);
+  }
+
+  const items = await query;
   const categories = await Item.distinct('category');
 
-  const [totalUsers, totalListings, openListings, resolvedListings] = await Promise.all([
-    req.models.User.countDocuments(),
+  const [totalUsers, totalListings, lostCount, foundCount, returnedCount] = await Promise.all([
+    User.countDocuments(),
     Item.countDocuments(),
-    Item.countDocuments({ status: 'OPEN' }),
-    Item.countDocuments({ status: 'RESOLVED' }),
+    Item.countDocuments({ status: 'LOST' }),
+    Item.countDocuments({ status: 'FOUND' }),
+    Item.countDocuments({ status: 'RETURNED' }),
   ]);
 
   return res.json({
@@ -55,35 +69,90 @@ async function listItems(req, res) {
     stats: {
       totalUsers,
       totalListings,
-      openListings,
-      resolvedListings,
+      lostCount,
+      foundCount,
+      returnedCount,
     },
     filters: {
       q: searchText,
       category,
+      itemType,
       status,
     },
   });
 }
 
 async function createItem(req, res) {
-  const { title, description, category, locationLost, locationFound, contactInfo } = req.body;
+  const {
+    itemType,
+    title,
+    description,
+    category,
+    incidentDate,
+    locationLost,
+    locationFound,
+    contactInfo,
+    imageData,
+  } = req.body;
 
-  if (!title || !description || !category || !contactInfo) {
-    return res.status(400).json({ message: 'Title, description, category and contact info are required.' });
+  if (!itemType || !title || !description || !category || !incidentDate || !contactInfo) {
+    return res.status(400).json({ message: 'Please fill all required fields.' });
   }
 
+  if (!['LOST', 'FOUND'].includes(String(itemType).toUpperCase())) {
+    return res.status(400).json({ message: 'Item type must be LOST or FOUND.' });
+  }
+
+  const normalizedType = String(itemType).toUpperCase();
+
   const item = await Item.create({
+    itemType: normalizedType,
     title: title.trim(),
     description: description.trim(),
     category: category.trim(),
+    incidentDate,
     locationLost: (locationLost || '').trim(),
     locationFound: (locationFound || '').trim(),
     contactInfo: contactInfo.trim(),
+    imageData: imageData || '',
     ownerId: req.user._id,
+    status: normalizedType,
   });
 
-  return res.status(201).json({ message: 'Item created successfully.', item });
+  return res.status(201).json({ message: 'Item posted successfully.', item });
+}
+
+async function updateItem(req, res) {
+  const item = await Item.findById(req.params.id);
+
+  if (!item) {
+    return res.status(404).json({ message: 'Item not found.' });
+  }
+
+  if (String(item.ownerId) !== String(req.user._id)) {
+    return res.status(403).json({ message: 'Only owner can edit this item.' });
+  }
+
+  const allowedFields = [
+    'title',
+    'description',
+    'category',
+    'incidentDate',
+    'locationLost',
+    'locationFound',
+    'contactInfo',
+    'imageData',
+  ];
+
+  allowedFields.forEach((field) => {
+    if (typeof req.body[field] !== 'undefined') {
+      item[field] = req.body[field];
+    }
+  });
+
+  await item.save();
+
+  return res.json({ message: 'Item updated successfully.', item });
 }
 
 async function getItemById(req, res) {
@@ -109,18 +178,13 @@ async function claimItem(req, res) {
     return res.status(400).json({ message: 'You cannot claim your own item.' });
   }
 
-  if (item.status !== 'OPEN') {
-    return res.status(400).json({ message: 'This item is not open for claim.' });
-  }
-
-  item.status = 'CLAIMED';
   item.claimedBy = req.user._id;
   await item.save();
 
-  return res.json({ message: 'Claim request sent.', item });
+  return res.json({ message: 'Owner contact is now available for this item.', item });
 }
 
-async function resolveItem(req, res) {
+async function markReturned(req, res) {
   const item = await Item.findById(req.params.id);
 
   if (!item) {
@@ -128,13 +192,13 @@ async function resolveItem(req, res) {
   }
 
   if (String(item.ownerId) !== String(req.user._id)) {
-    return res.status(403).json({ message: 'Only owner can resolve this item.' });
+    return res.status(403).json({ message: 'Only owner can mark this item as returned.' });
   }
 
-  item.status = 'RESOLVED';
+  item.status = 'RETURNED';
   await item.save();
 
-  return res.json({ message: 'Item marked as resolved.', item });
+  return res.json({ message: 'Item status updated to RETURNED.', item });
 }
 
 async function deleteItem(req, res) {
@@ -165,12 +229,19 @@ async function getDashboard(req, res) {
   return res.json({ myItems, claimedItems });
 }
 
+async function getMyPosts(req, res) {
+  const posts = await Item.find({ ownerId: req.user._id }).sort({ createdAt: -1 });
+  return res.json({ posts });
+}
+
 module.exports = {
   listItems,
   createItem,
+  updateItem,
   getItemById,
   claimItem,
-  resolveItem,
+  markReturned,
   deleteItem,
   getDashboard,
+  getMyPosts,
 };

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema(
   {
+    itemType: {
+      type: String,
+      enum: ['LOST', 'FOUND'],
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -19,8 +24,12 @@ const itemSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['OPEN', 'CLAIMED', 'RESOLVED'],
-      default: 'OPEN',
+      enum: ['LOST', 'FOUND', 'RETURNED'],
+      required: true,
+    },
+    incidentDate: {
+      type: Date,
+      required: true,
     },
     locationLost: {
       type: String,
@@ -36,6 +45,10 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    imageData: {
+      type: String,
+      default: '',
     },
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,

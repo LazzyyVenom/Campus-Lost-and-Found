@@ -27,7 +27,7 @@ export default function SignupPage() {
     try {
       const response = await client.post('/auth/signup', form);
       login(response.data.token, response.data.user);
-      navigate('/dashboard');
+      navigate('/browse');
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Signup failed.');
     }
@@ -69,7 +69,7 @@ export default function SignupPage() {
           required
         />
 
-        <button className="btn btn-primary" type="submit">Sign Up</button>
+        <button className="btn btn-gold" type="submit">Sign Up</button>
       </form>
       <p>Already registered? <Link to="/login">Login</Link></p>
     </section>

@@ -5,12 +5,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import BrowseItemsPage from './pages/BrowseItemsPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
-import DashboardPage from './pages/DashboardPage';
-import NewItemPage from './pages/NewItemPage';
+import MyPostsPage from './pages/MyPostsPage';
+import ReportItemPage from './pages/ReportItemPage';
 import ItemDetailsPage from './pages/ItemDetailsPage';
 import AdminLogsPage from './pages/AdminLogsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -21,23 +22,32 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/browse" element={<BrowseItemsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route
-          path="/dashboard"
+          path="/report/lost"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <ReportItemPage mode="LOST" />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/items/new"
+          path="/report/found"
           element={
             <ProtectedRoute>
-              <NewItemPage />
+              <ReportItemPage mode="FOUND" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-posts"
+          element={
+            <ProtectedRoute>
+              <MyPostsPage />
             </ProtectedRoute>
           }
         />

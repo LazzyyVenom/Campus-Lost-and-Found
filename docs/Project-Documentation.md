@@ -124,14 +124,34 @@ npm run install:all
 
 2. Set backend env:
 
+Do not type these lines in PowerShell. Create a file named `backend/.env` instead.
+
+```env
 PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/campus_lost_found
 JWT_SECRET=replace_with_secret
 ADMIN_EMAIL=admin@example.com
+```
+
+Windows shortcut:
+
+```powershell
+notepad backend\.env
+```
 
 3. Set frontend env:
 
+Create a file named `frontend/.env`.
+
+```env
 VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+Windows shortcut:
+
+```powershell
+notepad frontend\.env
+```
 
 4. Run backend:
 
