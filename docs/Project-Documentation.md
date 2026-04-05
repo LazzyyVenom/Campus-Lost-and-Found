@@ -1,106 +1,150 @@
-# Lost and Found System Documentation
+# Campus Lost and Found System (MERN)
 
 ## 1. Project Title
 
 Campus Lost and Found System
 
-## 2. Project Objective
+## 2. Objective
 
-The objective of this project is to provide a centralized digital platform where students can report lost items, publish found items, and recover belongings quickly and securely.
+The goal of this project is to provide one reliable web platform where students can report lost items, post found items, and recover belongings quickly.
 
-## 3. Problem Statement
+## 3. Why This Project
 
-In college environments, students frequently lose important items such as ID cards, wallets, chargers, and keys. Recovery through informal messaging is unreliable. This system solves that issue by creating a single structured platform for listing, searching, claiming, and resolving lost-and-found cases.
+In college, important things like ID cards, wallets, keys, chargers, and notebooks are often lost. Most recovery depends on random friend groups and luck. This project solves that by creating a structured platform with clear records.
 
-## 4. Technology Stack
+## 4. Stack Used (MERN)
 
-- Backend: Node.js, Express.js
-- Frontend: EJS templates, HTML5, CSS3
-- Database: SQLite (better-sqlite3)
-- Authentication: express-session, bcryptjs
-- Configuration: dotenv
-- Utilities: method-override
+- MongoDB: Database for users, items, and logs
+- Express.js: REST API layer
+- React + Vite: Frontend user interface
+- Node.js: Backend runtime
 
-## 5. Architecture Type
+## 5. Additional Libraries
 
-Monolithic full-stack web application with server-side rendering.
+### Backend
+- mongoose
+- bcryptjs
+- jsonwebtoken
+- cors
+- dotenv
+- nodemon
 
-## 6. Core Functional Modules
+### Frontend
+- react-router-dom
+- axios
 
-1. User Authentication
-- Signup and Login
-- Password hashing with bcrypt
-- Forgot password and reset password flow
-- Password visibility toggle for better usability
+## 6. Folder Structure
 
-2. Lost and Found Listings
-- Create item listing
-- Browse active listings
-- View detailed item information
-- Claim available items
-- Mark item as resolved
-- Delete own listings
+```text
+Lost and found System/
+|- backend/
+|  |- src/
+|  |  |- config/
+|  |  |- controllers/
+|  |  |- middleware/
+|  |  |- models/
+|  |  |- routes/
+|  |  |- utils/
+|  |  |- server.js
+|  |- .env.example
+|  |- package.json
+|- frontend/
+|  |- src/
+|  |  |- api/
+|  |  |- components/
+|  |  |- context/
+|  |  |- pages/
+|  |  |- styles/
+|  |  |- App.jsx
+|  |  |- main.jsx
+|  |- .env.example
+|  |- package.json
+|- package.json
+```
 
-3. Role-Based Access Control
-- Normal users can use listing features
-- Admin-only access to login audit details
+## 7. Main Features
 
-4. Login Audit Module
-- Tracks successful and failed login attempts
-- Stores attempted email, user mapping, IP, user-agent, and timestamp
+1. Authentication
+- Signup
+- Login
+- Forgot password
+- Reset password
+- JWT-based protected routes
 
-## 7. Database Tables
+2. Item Management
+- Create lost/found listing
+- Search and filter listings
+- Open item details
+- Claim item
+- Resolve item
+- Delete own item
 
-- users
-- items
-- login_logs
-- password_reset_tokens
+3. Dashboard
+- View your posted items
+- View your claimed items
 
-## 8. Security Features
+4. Admin Module
+- Admin-only login logs
+- Access-protected admin routes
 
-- Passwords stored as hash, not plain text
-- Session-based authentication
-- Admin route protection using DB-based role check
-- Reset code expiry and one-time usage behavior
+## 8. Security Design
 
-## 9. Real-World Readiness
+- Password stored as hash using bcrypt
+- JWT token validation on protected API routes
+- Admin-only middleware for audit endpoints
+- Login attempts tracked in database
 
-- Responsive interface for mobile and desktop
-- Search and filter on listings (keyword, category, status)
-- Clear status lifecycle: OPEN, CLAIMED, RESOLVED
-- Designed for daily student usage
+## 9. API Summary
 
-## 10. Setup Instructions
+### Auth Routes
+- POST /api/auth/signup
+- POST /api/auth/login
+- GET /api/auth/me
+- POST /api/auth/forgot-password
+- POST /api/auth/reset-password
 
-1. Install dependencies:
+### Item Routes
+- GET /api/items
+- GET /api/items/dashboard
+- POST /api/items
+- GET /api/items/:id
+- POST /api/items/:id/claim
+- POST /api/items/:id/resolve
+- DELETE /api/items/:id
 
-npm install
+### Admin Routes
+- GET /api/admin/login-logs
+- GET /api/admin/users
 
-2. Add environment variables in .env:
+## 10. How to Run
 
-PORT=3000
-SESSION_SECRET=your_secret
-ADMIN_EMAIL=your_admin_email
+1. Install everything:
 
-3. Run application:
+npm run install:all
 
-npm start
+2. Set backend env:
 
-4. Open:
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/campus_lost_found
+JWT_SECRET=replace_with_secret
+ADMIN_EMAIL=admin@example.com
 
-http://localhost:3000
+3. Set frontend env:
 
-## 11. Deployment Recommendation
+VITE_API_BASE_URL=http://localhost:5000/api
 
-This is a server-side Node.js + SQLite app, so Netlify is not ideal for full deployment.
+4. Run backend:
 
-Recommended platforms:
-- Render (best for this project)
-- Railway
-- VPS (DigitalOcean, AWS EC2)
+npm run dev:backend
 
-If you need SQLite persistence, use a disk/persistent volume. For scalable production, migrate to PostgreSQL.
+5. Run frontend:
 
-## 12. Conclusion
+npm run dev:frontend
 
-The Campus Lost and Found System provides a practical, secure, and user-friendly solution for managing lost-and-found operations in college. It improves recovery speed, transparency, and accountability for daily use.
+6. Open app:
+
+http://localhost:5173
+
+## 11. Conclusion
+
+This MERN-based Campus Lost and Found System is a practical and clean full-stack project that can be used by students daily and is suitable for college project submission.

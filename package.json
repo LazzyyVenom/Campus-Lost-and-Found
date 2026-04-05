@@ -1,28 +1,13 @@
 {
-  "name": "lost-and-found-system",
+  "name": "campus-lost-and-found-mern",
+  "private": true,
   "version": "1.0.0",
-  "description": "College practical project: Lost and Found System with authentication",
-  "main": "backend/src/app.js",
+  "description": "Clean MERN based Lost and Found app for college project",
   "scripts": {
-    "start": "node backend/src/app.js",
-    "dev": "node --watch backend/src/app.js"
-  },
-  "keywords": [
-    "lost-and-found",
-    "college-project",
-    "express",
-    "sqlite"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.7.0",
-    "dotenv": "^16.6.1",
-    "ejs": "^3.1.10",
-    "express": "^4.21.2",
-    "express-session": "^1.18.1",
-    "method-override": "^3.0.0",
-    "pdfkit": "^0.18.0"
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
   }
 }
