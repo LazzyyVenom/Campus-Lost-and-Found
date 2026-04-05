@@ -13,10 +13,32 @@ const User = require('./models/User');
 const app = express();
 
 const corsOrigin = process.env.CORS_ORIGIN || '*';
+const allowedOrigins = corsOrigin
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
+
+function isOriginAllowed(origin) {
+  if (!origin) {
+    return true;
+  }
+
+  if (allowedOrigins.includes('*')) {
+    return true;
+  }
+
+  return allowedOrigins.includes(origin);
+}
 
 app.use(
   cors({
-    origin: corsOrigin === '*' ? true : corsOrigin,
+    origin(origin, callback) {
+      if (isOriginAllowed(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'));
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
