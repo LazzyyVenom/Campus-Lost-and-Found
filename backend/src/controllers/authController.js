@@ -25,6 +25,10 @@ function pickUser(user) {
   };
 }
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 async function signup(req, res) {
   const { name, email, password, confirmPassword } = req.body;
 
@@ -41,25 +45,35 @@ async function signup(req, res) {
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  const existingUser = await User.findOne({ email: normalizedEmail });
+  const existingUser = await User.findOne({
+    email: { $regex: `^${escapeRegex(normalizedEmail)}$`, $options: 'i' },
+  });
 
   if (existingUser) {
     return res.status(400).json({ message: 'Email is already registered.' });
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
-  const user = await User.create({
-    name: name.trim(),
-    email: normalizedEmail,
-    passwordHash,
-    isAdmin: normalizedEmail === (process.env.ADMIN_EMAIL || '').toLowerCase(),
-  });
+  try {
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      name: name.trim(),
+      email: normalizedEmail,
+      passwordHash,
+      isAdmin: normalizedEmail === (process.env.ADMIN_EMAIL || '').toLowerCase(),
+    });
 
-  return res.status(201).json({
-    message: 'Account created successfully.',
-    token: generateToken(user._id),
-    user: pickUser(user),
-  });
+    return res.status(201).json({
+      message: 'Account created successfully.',
+      token: generateToken(user._id),
+      user: pickUser(user),
+    });
+  } catch (error) {
+    if (error && error.code === 11000) {
+      return res.status(400).json({ message: 'Email is already registered.' });
+    }
+
+    throw error;
+  }
 }
 
 async function login(req, res) {
