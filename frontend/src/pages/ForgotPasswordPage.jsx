@@ -17,7 +17,12 @@ export default function ForgotPasswordPage() {
       const response = await client.post('/auth/forgot-password', { email });
       setMessage(`Demo reset code: ${response.data.resetCode}`);
     } catch (apiError) {
-      setError(apiError.response?.data?.message || 'Could not generate reset code.');
+      const apiMessage = apiError.response?.data?.message || '';
+      if (/please wait 1 minute/i.test(apiMessage)) {
+        setError('Please try again shortly.');
+      } else {
+        setError(apiMessage || 'Could not generate reset code.');
+      }
     } finally {
       setLoading(false);
     }
