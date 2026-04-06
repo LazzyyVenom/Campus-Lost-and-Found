@@ -40,10 +40,10 @@ export default function ResetPasswordPage() {
     <section className="form-wrap panel auth-card">
       <p className="hero-label">OTP Verification</p>
       <h1>Reset Password</h1>
-      <p className="auth-subline">Use the OTP received in your email to set a new password. Codes expire after 10 minutes.</p>
+      <p className="auth-subline">Use the demo reset code to set a new password. Codes expire after 10 minutes.</p>
       {error && <p className="error-text">{error}</p>}
       {message && <p className="success-text">{message}</p>}
-      <p className="hint-text">If the mail is missing, recheck spam and confirm SMTP settings on the backend.</p>
+      <p className="hint-text">Paste the code shown on forgot-password screen.</p>
       <form onSubmit={onSubmit}>
         <label>Email</label>
         <input name="email" type="email" value={form.email} onChange={onChange} required />

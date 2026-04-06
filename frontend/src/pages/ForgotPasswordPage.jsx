@@ -15,7 +15,7 @@ export default function ForgotPasswordPage() {
 
     try {
       const response = await client.post('/auth/forgot-password', { email });
-      setMessage(response.data.message || 'If the email exists, an OTP has been sent.');
+      setMessage(`Demo reset code: ${response.data.resetCode}`);
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Could not generate reset code.');
     } finally {
@@ -27,7 +27,7 @@ export default function ForgotPasswordPage() {
     <section className="form-wrap panel auth-card">
       <p className="hero-label">Account Recovery</p>
       <h1>Forgot Password</h1>
-      <p className="auth-subline">Enter your registered email and we will send a secure OTP code. Check inbox and spam after submitting.</p>
+      <p className="auth-subline">Enter your registered email to generate demo reset code.</p>
       {error && <p className="error-text">{error}</p>}
       {message && <p className="success-text">{message}</p>}
       <p className="hint-text">Use the same email you used while signing up.</p>
@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
         <label>Registered Email</label>
         <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
         <button className="btn btn-gold" type="submit" disabled={loading}>
-          {loading ? 'Sending OTP...' : 'Send OTP to Email'}
+          {loading ? 'Generating...' : 'Generate Reset Code'}
         </button>
       </form>
     </section>
