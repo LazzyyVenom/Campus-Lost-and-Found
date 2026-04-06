@@ -34,8 +34,10 @@ export default function SignupPage() {
   }
 
   return (
-    <section className="form-wrap panel">
-      <h1>Create Account</h1>
+    <section className="form-wrap panel auth-card">
+      <p className="hero-label">Create Membership</p>
+      <h1>Create your campus account</h1>
+      <p className="auth-subline">One account lets you report, track, and recover items securely.</p>
       {error && <p className="error-text">{error}</p>}
       <form onSubmit={onSubmit}>
         <label>Full Name</label>

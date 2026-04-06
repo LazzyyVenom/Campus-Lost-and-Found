@@ -29,8 +29,10 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="form-wrap panel">
-      <h1>Login</h1>
+    <section className="form-wrap panel auth-card">
+      <p className="hero-label">Welcome Back</p>
+      <h1>Sign in to your account</h1>
+      <p className="auth-subline">Access your reports, responses, and account history.</p>
       {error && <p className="error-text">{error}</p>}
       <form onSubmit={onSubmit}>
         <label>Email</label>

@@ -13,7 +13,7 @@ const passwordResetTokenSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    resetToken: {
+    resetTokenHash: {
       type: String,
       required: true,
     },

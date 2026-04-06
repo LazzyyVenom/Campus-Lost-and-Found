@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function Layout({ children }) {
   const { user, logout } = useAuth();
   const [openProfile, setOpenProfile] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function navClass({ isActive }) {
     return isActive ? 'nav-link active' : 'nav-link';
@@ -18,24 +19,28 @@ export default function Layout({ children }) {
           <span>Campus Lost & Found</span>
         </Link>
 
-        <nav className="topnav">
-          <NavLink to="/" className={navClass}>Home</NavLink>
-          <NavLink to="/browse" className={navClass}>Browse Items</NavLink>
+        <button className="menu-toggle" type="button" onClick={() => setMobileMenuOpen((v) => !v)}>
+          Menu
+        </button>
+
+        <nav className={`topnav ${mobileMenuOpen ? 'open' : ''}`}>
+          <NavLink to="/" className={navClass} onClick={() => setMobileMenuOpen(false)}>Home</NavLink>
+          <NavLink to="/browse" className={navClass} onClick={() => setMobileMenuOpen(false)}>Browse Items</NavLink>
           {!user && (
-            <NavLink to="/login" className="nav-button nav-button-gold">
+            <NavLink to="/login" className="nav-button nav-button-gold" onClick={() => setMobileMenuOpen(false)}>
               Login
             </NavLink>
           )}
           {!user && (
-            <NavLink to="/signup" className="nav-button nav-button-gold">
+            <NavLink to="/signup" className="nav-button nav-button-gold" onClick={() => setMobileMenuOpen(false)}>
               Signup
             </NavLink>
           )}
 
-          {user && <NavLink to="/report/lost" className={navClass}>Report Lost Item</NavLink>}
-          {user && <NavLink to="/report/found" className={navClass}>Report Found Item</NavLink>}
-          {user && <NavLink to="/my-posts" className={navClass}>My Posts</NavLink>}
-          {user?.isAdmin && <NavLink to="/admin/login-logs" className={navClass}>Admin</NavLink>}
+          {user && <NavLink to="/report/lost" className={navClass} onClick={() => setMobileMenuOpen(false)}>Report Lost Item</NavLink>}
+          {user && <NavLink to="/report/found" className={navClass} onClick={() => setMobileMenuOpen(false)}>Report Found Item</NavLink>}
+          {user && <NavLink to="/my-posts" className={navClass} onClick={() => setMobileMenuOpen(false)}>My Posts</NavLink>}
+          {user?.isAdmin && <NavLink to="/admin/login-logs" className={navClass} onClick={() => setMobileMenuOpen(false)}>Admin</NavLink>}
 
           {user && (
             <div className="profile-wrap">
@@ -61,7 +66,7 @@ export default function Layout({ children }) {
       <footer className="site-footer">
         <div>
           <h4>About</h4>
-          <p> Lost and Found platform for daily college use.</p>
+          <p>Classic campus platform for secure lost and found recovery.</p>
         </div>
         <div>
           <h4>Contact</h4>
@@ -76,6 +81,11 @@ export default function Layout({ children }) {
           <p>© {new Date().getFullYear()} Campus Lost & Found</p>
         </div>
       </footer>
+
+      <div className="footer-note">
+        <span>Built for students, staff, and quick item recovery.</span>
+        <span>Responsive. Account-based. Simple to use.</span>
+      </div>
     </div>
   );
 }
