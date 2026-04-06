@@ -46,8 +46,16 @@ export default function HomePage() {
         <div className="hero-note-card">
           <h3>Trusted by Students</h3>
           <p>Built for college workflows with owner verification, status timeline, and secure account-based reporting.</p>
-          <Link to="/browse" className="read-link">Explore active reports</Link>
+          <Link to="/browse" className="read-link read-link-light">Explore active reports</Link>
         </div>
+      </section>
+
+      <section className="panel about-creator">
+        <h2>About Creator</h2>
+        <p>
+          Hi, I am Piyush Kumar, a final year BCA student. I built this Lost and Found platform to make campus item recovery
+          simple, organized, and useful for everyone.
+        </p>
       </section>
 
       <section className="panel how-grid">
