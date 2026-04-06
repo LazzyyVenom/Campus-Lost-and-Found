@@ -188,8 +188,8 @@ async function resetPassword(req, res) {
   const { email, resetCode, password, confirmPassword } = req.body;
   const normalizedEmail = (email || '').trim().toLowerCase();
 
-  if (!normalizedEmail || !resetCode || !password || !confirmPassword) {
-    return res.status(400).json({ message: 'All fields are required.' });
+  if (!resetCode || !password || !confirmPassword) {
+    return res.status(400).json({ message: 'Reset code and password fields are required.' });
   }
 
   if (password.length < 6) {
@@ -202,18 +202,23 @@ async function resetPassword(req, res) {
 
   const resetTokenHash = crypto.createHash('sha256').update(String(resetCode).trim()).digest('hex');
 
-  const latestToken = await PasswordResetToken.findOne({
-    email: normalizedEmail,
+  const tokenFilter = {
     resetTokenHash,
     used: false,
     expiresAt: { $gte: new Date() },
-  }).sort({ createdAt: -1 });
+  };
+
+  if (normalizedEmail) {
+    tokenFilter.email = normalizedEmail;
+  }
+
+  const latestToken = await PasswordResetToken.findOne(tokenFilter).sort({ createdAt: -1 });
 
   if (!latestToken) {
     return res.status(400).json({ message: 'Invalid or expired reset code.' });
   }
 
-  const user = await User.findOne({ email: normalizedEmail });
+  const user = await User.findById(latestToken.userId);
 
   if (!user) {
     return res.status(404).json({ message: 'User not found.' });
@@ -223,7 +228,7 @@ async function resetPassword(req, res) {
   await user.save();
 
   await PasswordResetToken.updateMany(
-    { email: normalizedEmail, used: false },
+    { userId: latestToken.userId, used: false },
     { $set: { used: true } }
   );
 

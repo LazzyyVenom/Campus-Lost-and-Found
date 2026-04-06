@@ -6,7 +6,6 @@ export default function ResetPasswordPage() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    email: '',
     resetCode: '',
     password: '',
     confirmPassword: '',
@@ -38,16 +37,13 @@ export default function ResetPasswordPage() {
 
   return (
     <section className="form-wrap panel auth-card">
-      <p className="hero-label">OTP Verification</p>
+      <p className="hero-label">Password Recovery</p>
       <h1>Reset Password</h1>
-      <p className="auth-subline">Use the demo reset code to set a new password. Codes expire after 10 minutes.</p>
+      <p className="auth-subline">Enter your reset code and set a new password.</p>
       {error && <p className="error-text">{error}</p>}
       {message && <p className="success-text">{message}</p>}
       <p className="hint-text">Paste the code shown on forgot-password screen.</p>
       <form onSubmit={onSubmit}>
-        <label>Email</label>
-        <input name="email" type="email" value={form.email} onChange={onChange} required />
-
         <label>Reset Code</label>
         <input name="resetCode" value={form.resetCode} onChange={onChange} required />
 
